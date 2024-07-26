@@ -13,26 +13,59 @@ import 'package:yuut_admin/utils/widgets/appbar_home.dart';
 import 'package:yuut_admin/utils/widgets/loading_indicator.dart';
 import 'package:yuut_admin/utils/helper/snackbar.dart';
 
-class AddProductPage extends StatelessWidget {
-  AddProductPage({super.key});
-  AnimationController? animationController;
-  var nameController = TextEditingController();
-  var detailController = TextEditingController();
-  var dimensionController = TextEditingController();
-  var deliveryAndReturnController = TextEditingController();
-  var quantityController = TextEditingController();
+class EditProduct extends StatefulWidget {
+  final ProductModel productModel;
+  EditProduct({super.key, required this.productModel});
 
-  var priceController = TextEditingController();
+  @override
+  State<EditProduct> createState() => _EditProductState();
+}
+
+class _EditProductState extends State<EditProduct> {
+  AnimationController? animationController;
+
+  late TextEditingController nameController;
+
+  late TextEditingController detailController;
+
+  late TextEditingController dimensionController;
+
+  late TextEditingController deliveryAndReturnController;
+
+  late TextEditingController quantityController;
+
+  late TextEditingController priceController;
+
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    nameController = TextEditingController(text: widget.productModel.name);
+
+    detailController =
+        TextEditingController(text: widget.productModel.productDetails);
+
+    dimensionController =
+        TextEditingController(text: widget.productModel.productDimensions);
+
+    deliveryAndReturnController =
+        TextEditingController(text: widget.productModel.deliveryAndRetturn);
+
+    quantityController =
+        TextEditingController(text: widget.productModel.quantity.toString());
+
+    priceController =
+        TextEditingController(text: widget.productModel.prize.toString());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final higth = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    // List<File> pickedFile = [];
     return Scaffold(
         appBar: homeAppBar,
         body: SingleChildScrollView(
-          // physics: NeverScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Form(
@@ -40,99 +73,6 @@ class AddProductPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AspectRatio(
-                    aspectRatio: 2,
-                    child: Builder(builder: (context) {
-                      return InkWell(
-                        onTap: () {
-                          showBottomSheet(
-                            transitionAnimationController: animationController,
-                            enableDrag: true,
-                            context: context,
-                            builder: (context) {
-                              return AspectRatio(
-                                  aspectRatio: 2,
-                                  child: SizedBox(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            height: 5,
-                                            width: 35,
-                                            decoration: const BoxDecoration(
-                                                color: ColorResourse.black,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(2))),
-                                          ),
-                                          Consumer<Controller>(builder:
-                                              (context, controller, child) {
-                                            return Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                _customeButton(
-                                                    higth,
-                                                    width,
-                                                    Icons.image,
-                                                    "GALLERY", () async {
-                                                  await controller
-                                                      .pickImagesFormGallery();
-                                                  Navigator.of(context).pop();
-                                                }),
-                                                _customeButton(
-                                                    higth,
-                                                    width,
-                                                    Icons.camera_alt,
-                                                    "CAMERA", () async {
-                                                  await controller
-                                                      .pickImageFromCamera();
-                                                  Navigator.of(context).pop();
-                                                })
-                                              ],
-                                            );
-                                          }),
-                                          const SizedBox()
-                                        ],
-                                      ),
-                                    ),
-                                  ));
-                            },
-                          );
-                          // Scaffold.of(context).showBottomSheet((context) {
-                          //   return AspectRatio(
-                          //     aspectRatio: 2,
-                          //     child: Container(),
-                          //   );
-                          // });
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: ColorResourse.white)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.system_update_alt_outlined,
-                                color: ColorResourse.white,
-                                size: 30,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "UPLOAD IMAGE",
-                                style: appTextstyle(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -262,7 +202,6 @@ class AddProductPage extends StatelessWidget {
                   SizedBox(
                     height: higth * .08,
                   ),
-                  // Expanded(child: SizedBox()),
                   Center(
                     child: SizedBox(
                       // height: 10,
@@ -276,46 +215,62 @@ class AddProductPage extends StatelessWidget {
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                if (controller.imageList.isEmpty) {
-                                  showErrorMessage("PICK PRODUCT IMAGE !!");
-                                } else {
-                                  showLoadingIndiactor(context);
-                                  await FirebaseDataBase()
-                                      .addNewProduct(ProductModel(
-                                    deliveryAndRetturn:
-                                        deliveryAndReturnController.text,
-                                    productDetails: detailController.text,
-                                    productDimensions: dimensionController.text,
-                                    quantity:
-                                        int.parse(quantityController.text),
-                                    image: await FirebaseDataBase
-                                        .storeImagetoCloud(
-                                            controller.imageList),
-                                    name: nameController.text,
-                                    prize: double.parse(priceController.text),
-                                  ));
+                                showLoadingIndiactor(context);
+                                await FirebaseDataBase()
+                                    .updateProductDetail(ProductModel(
+                                  productId: widget.productModel.productId,
+                                  deliveryAndRetturn:
+                                      deliveryAndReturnController.text,
+                                  productDetails: detailController.text,
+                                  productDimensions: dimensionController.text,
+                                  quantity: int.parse(quantityController.text),
+                                  image: widget.productModel.image,
+                                  name: nameController.text,
+                                  prize: double.parse(priceController.text),
+                                ));
 
-                                  showSuccessMessage(
-                                      "PRODUCT ADDED SUCCESSFUL");
-                                  controller.dispiseImage();
-                                  final pop = Navigator.of(context);
-                                  pop.pop();
-                                  pop.pop();
-                                }
+                                showSuccessMessage("UPDATED SUCCESSFUL");
+                                final pop = Navigator.of(context);
+                                pop.pop();
+                                pop.pop();
                               }
-
-                              // Navigator.of(context).pop();
-
-                              // Navigator.of(context).pushAndRemoveUntil(
-                              //     createRoute(const ProductViewPageMobile()),
-                              //     (route) => false);
-                              // showLoadingIndiactor(context);
                             },
                             child: Text(
-                              "UPLOAD NOW",
+                              "UPDATE NOW",
                               style: appTextstyle(
                                   size: 17,
                                   color: ColorResourse.black,
+                                  fontWeight: FontWeight.bold),
+                            ));
+                      }),
+                    ),
+                  ),
+                  Center(
+                    child: SizedBox(
+                      // height: 10,
+                      width: width * .33,
+                      child: Consumer<Controller>(
+                          builder: (context, controller, child) {
+                        return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorResourse.red,
+                              shape: const ContinuousRectangleBorder(),
+                            ),
+                            onPressed: () async {
+                              showLoadingIndiactor(context);
+                              await FirebaseDataBase().deleteProduct(
+                                  widget.productModel.productId!);
+                              showWarningMessage("DELETED !!");
+                              final pop = Navigator.of(context);
+
+                              pop.pop();
+                              pop.pop();
+                            },
+                            child: Text(
+                              "REMOVE",
+                              style: appTextstyle(
+                                  size: 17,
+                                  color: ColorResourse.white,
                                   fontWeight: FontWeight.bold),
                             ));
                       }),

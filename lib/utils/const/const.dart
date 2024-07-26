@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:yuut_admin/Const/colors.dart';
+import 'package:yuut_admin/utils/const/colors.dart';
+import 'package:yuut_admin/utils/const/const_string.dart';
 
 var logoText = Text(
-  "YUUT EBROK",
+  ConstString.appName,
   style: GoogleFonts.nanumMyeongjo(
-      color: white, fontWeight: FontWeight.w800, letterSpacing: 1),
+      color:ColorResourse. white, fontWeight: FontWeight.w800, letterSpacing: 1),
 );
 
 Route createRoute(page) {
@@ -22,9 +23,10 @@ Route createRoute(page) {
 }
 
 TextStyle appTextstyle(
-    {double? size, FontWeight? fontWeight, double? letterSpacing,Color ?color}) {
+    {double? size, FontWeight? fontWeight, double? letterSpacing,Color ?color,TextBaseline? textBaseline}) {
   return GoogleFonts.anekBangla(
-      color:color?? white,
+    textBaseline:textBaseline,
+      color:color??ColorResourse. white,
       fontWeight: fontWeight,
       fontSize: size,
       letterSpacing: letterSpacing);

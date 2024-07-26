@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "363089986677",
+    "project_id": "yuutebrok-e03d0",
+    "storage_bucket": "yuutebrok-e03d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363089986677:android:e8673735a76612d488a43c",
+        "android_client_info": {
+          "package_name": "com.example.yuut_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvLxClg1WrQyYgN0jMQSJvkQArQ1wKReM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363089986677:android:814a02c64b8f9e6088a43c",
+        "android_client_info": {
+          "package_name": "com.example.yuutebrok"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvLxClg1WrQyYgN0jMQSJvkQArQ1wKReM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

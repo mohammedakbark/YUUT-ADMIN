@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yuut_admin/Const/colors.dart';
-import 'package:yuut_admin/Const/const.dart';
-import 'package:yuut_admin/Const/media.dart';
+import 'package:yuut_admin/utils/const/colors.dart';
+import 'package:yuut_admin/utils/const/const.dart';
+import 'package:yuut_admin/utils/const/media.dart';
 
 var homeAppBar = AppBar(
   backgroundColor: Colors.transparent,

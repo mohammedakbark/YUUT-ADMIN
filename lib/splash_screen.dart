@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yuut_admin/Const/const.dart';
-import 'package:yuut_admin/Const/media.dart';
+import 'package:yuut_admin/utils/const/const.dart';
+import 'package:yuut_admin/utils/const/media.dart';
 import 'package:yuut_admin/View/mainpage.dart';
 
 class SpalshScreen extends StatefulWidget {

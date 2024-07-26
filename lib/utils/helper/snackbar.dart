@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:yuut_admin/Const/colors.dart';
-import 'package:yuut_admin/Const/const.dart';
+import 'package:yuut_admin/utils/const/colors.dart';
+import 'package:yuut_admin/utils/const/const.dart';
 
 // showErrorMessage(context, content) {
 //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -32,8 +32,8 @@ showSuccessMessage(message) {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER_RIGHT,
       timeInSecForIosWeb: 1,
-      backgroundColor: green,
-      textColor: white,
+      backgroundColor: ColorResourse.green,
+      textColor: ColorResourse.white,
       fontSize: 16.0);
 }
 
@@ -43,8 +43,8 @@ showErrorMessage(message) {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: red,
-      textColor: white,
+      backgroundColor: ColorResourse.red,
+      textColor: ColorResourse.white,
       fontSize: 16.0);
 }
 
@@ -54,7 +54,7 @@ showWarningMessage(message) {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: grey,
-      textColor: black,
+      backgroundColor: ColorResourse.grey,
+      textColor: ColorResourse.white,
       fontSize: 16.0);
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:yuut_admin/Const/media.dart';
+import 'package:yuut_admin/utils/const/media.dart';
 
 class LoadingAnimatedLogo extends StatefulWidget {
   const LoadingAnimatedLogo({super.key});
@@ -57,5 +57,9 @@ class _LoadingAnimatedLogoState extends State<LoadingAnimatedLogo>
 
 showLoadingIndiactor(context) {
   return showDialog(
-      context: context, builder: (context) => const LoadingAnimatedLogo());
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => const LoadingAnimatedLogo());
 }
+
+
