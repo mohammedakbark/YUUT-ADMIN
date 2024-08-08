@@ -60,4 +60,10 @@ class Controller with ChangeNotifier {
     imageList = [];
     notifyListeners();
   }
+
+  int initialPageIndex = 0;
+  void onChangePage(int index) {
+    initialPageIndex = index;
+    notifyListeners();
+  }
 }

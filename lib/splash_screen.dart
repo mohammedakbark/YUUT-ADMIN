@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yuut_admin/View/navigation.dart';
 import 'package:yuut_admin/utils/const/const.dart';
 import 'package:yuut_admin/utils/const/media.dart';
-import 'package:yuut_admin/View/mainpage.dart';
+import 'package:yuut_admin/View/home_tabs/mainpage.dart';
 
 class SpalshScreen extends StatefulWidget {
   const SpalshScreen({super.key});
@@ -32,7 +33,7 @@ class _SpalshScreenState extends State<SpalshScreen>
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 4)).then((value) {
       Navigator.of(context)
-          .pushAndRemoveUntil(createRoute(MainPage()), (route) => false);
+          .pushAndRemoveUntil(createRoute(NavigationPage()), (route) => false);
     });
     return Scaffold(
       body: Center(

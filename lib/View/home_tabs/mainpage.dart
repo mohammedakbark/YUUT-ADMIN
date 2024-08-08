@@ -4,12 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yuut_admin/View/edit_product.dart';
+import 'package:yuut_admin/View/product/edit_product.dart';
 import 'package:yuut_admin/controller/database.dart';
 import 'package:yuut_admin/Model/product_model.dart';
 import 'package:yuut_admin/utils/const/colors.dart';
 import 'package:yuut_admin/utils/const/const.dart';
-import 'package:yuut_admin/View/add_product_page.dart';
+import 'package:yuut_admin/View/product/add_product_page.dart';
 import 'package:yuut_admin/utils/widgets/appbar_home.dart';
 import 'package:yuut_admin/utils/widgets/drawer.dart';
 import 'package:yuut_admin/utils/widgets/loading_indicator.dart';
@@ -104,13 +104,13 @@ class _MainPageState extends State<MainPage> {
                                     "₹ ${product.prize.roundToDouble()}",
                                     style: appTextstyle(),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   InkWell(
                                     onTap: () {
                                       Navigator.of(context).push(createRoute(
                                          EditProduct(productModel: product)));
                                     },
-                                    child: Text("EDIT",
+                                    child: const Text("EDIT",
                                         style: TextStyle(
                                             color: ColorResourse.white,
                                             decorationColor:
@@ -139,6 +139,9 @@ class _MainPageState extends State<MainPage> {
           size: 28,
         ),
       ),
+
+
+     
     );
   }
 }

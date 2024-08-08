@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:yuut_admin/Model/product_model.dart';
 import 'package:yuut_admin/utils/Const/const_string.dart';
 import 'package:path/path.dart' as path;
+import 'package:yuut_admin/utils/const/enum_order_status.dart';
 import 'package:yuut_admin/utils/helper/snackbar.dart';
 
 class FirebaseDataBase {
@@ -21,19 +22,19 @@ class FirebaseDataBase {
     }
   }
 
-  Future<void> updateProductDetail
-    (ProductModel productModel) async {
-      final doc = _db.collection(ConstString.productCollection).doc(productModel.productId);
-      try {
-        await doc.update(productModel.toJon(doc.id));
-      } catch (e) {
-        log(e.toString());
-      }
+  Future<void> updateProductDetail(ProductModel productModel) async {
+    final doc = _db
+        .collection(ConstString.productCollection)
+        .doc(productModel.productId);
+    try {
+      await doc.update(productModel.toJon(doc.id));
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
-  Future <void> deleteProduct(String id)async{
-  await  _db.collection(ConstString.productCollection).doc(id).delete();
-
+  Future<void> deleteProduct(String id) async {
+    await _db.collection(ConstString.productCollection).doc(id).delete();
   }
 
   QuerySnapshot<Map<String, dynamic>>? _snapshot;
@@ -73,5 +74,11 @@ class FirebaseDataBase {
     }
 
     return downloadUrls;
+  }
+
+  //------------ORDER
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getOrder(OrderStatus status) {
+    return _db.collection(ConstString.oderCollection).where('status',isEqualTo: orderStatus(status)).snapshots();
   }
 }
