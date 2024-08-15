@@ -1,36 +1,49 @@
-enum OrderStatus { succesful, canceled, completed }
+enum OrderStatus { pending, cancelled, completed,
+
+ processed 
+ }
 
 checkOrderStatus(String status) {
   switch (status) {
-    case 'Succesful':
+    case 'Pending':
       {
-        return OrderStatus.succesful;
+        return OrderStatus.pending;
       }
-    case 'Canceled':
+    case 'Cancelled':
       {
-        return OrderStatus.canceled;
+        return OrderStatus.cancelled;
       }
     case 'Completed':
       {
         return OrderStatus.completed;
       }
+    case 'Processed':
+      {
+        return OrderStatus.processed;
+      }
   }
 }
 
-
-String orderStatus(OrderStatus status) {
+String convertOrderStatusToString(OrderStatus status) {
   switch (status) {
-    case OrderStatus.succesful:
+    case OrderStatus.pending:
       {
-        return 'Succesful';
+        return 'Pending';
       }
-    case OrderStatus.canceled:
+    case OrderStatus.cancelled:
       {
-        return 'Canceled';
+        return 'Cancelled';
       }
     case OrderStatus.completed:
       {
         return 'Completed';
       }
+    case OrderStatus.processed:
+      {
+        return 'Processed';
+      }
   }
 }
+
+
+// xs,s,m,l,xl,

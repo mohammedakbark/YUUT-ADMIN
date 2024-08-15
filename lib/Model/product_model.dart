@@ -7,6 +7,7 @@ class ProductModel {
   String deliveryAndRetturn;
   double prize;
   int quantity;
+  List<String> sizes;
 
   ProductModel(
       {required this.deliveryAndRetturn,
@@ -16,6 +17,7 @@ class ProductModel {
       required this.image,
       required this.name,
       required this.prize,
+      required this.sizes,
       this.productId});
 
   Map<String, dynamic> toJon(id) => {
@@ -26,7 +28,8 @@ class ProductModel {
         "image": image,
         "name": name,
         "productDetails": productDetails,
-        "prize": prize
+        "prize": prize,
+        "sizes": sizes.map((e) => e).toList(),
       };
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
@@ -37,6 +40,7 @@ class ProductModel {
         image: json["image"],
         name: json["name"],
         prize: json["prize"],
+        sizes: List<String>.from(json["sizes"]),
         productId: json["productId"]);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:yuut_admin/Model/address_model.dart';
 import 'package:yuut_admin/Model/cart_model.dart';
 
@@ -9,8 +10,10 @@ class OrderModel {
   List<CartModel> products;
   String status;
   String totalAmout;
+  Timestamp ?timestamp;
   OrderModel(
       {this.orderId,
+      this.timestamp,
       required this.uid,
       required this.address,
       required this.products,
@@ -20,6 +23,7 @@ class OrderModel {
 
   Map<String, dynamic> toJson(id) => {
         'orderId': id,
+        'timestamp':Timestamp.now(),
         'uid': uid,
         'address': address.toJson(),
         'response': response.toJson(),
@@ -30,6 +34,7 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
       orderId: json['orderId'],
+      timestamp:json['timestamp'],
       address: AddressModel.fromJson(json['address']),
       uid: json['uid'],
       products: List<CartModel>.from(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yuut_admin/Model/order_model.dart';
 import 'package:yuut_admin/View/orders/order_detail_page.dart';
+import 'package:yuut_admin/View/orders/tabs/widget/single_order_tile.dart';
 import 'package:yuut_admin/controller/database.dart';
 import 'package:yuut_admin/utils/const/colors.dart';
 import 'package:yuut_admin/utils/const/const.dart';
@@ -13,7 +14,7 @@ class CompletedOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseDataBase().getOrder(OrderStatus.completed),
+        stream: FirebaseDataBase().getOrder(OrderStatus.processed),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingAnimatedLogo();
@@ -49,19 +50,7 @@ class CompletedOrder extends StatelessWidget {
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
                     OrderModel order = orders[index];
-                    return InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(createRoute(OrderDetailPage(order: order,)));
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        margin: const EdgeInsets.symmetric(vertical: 5),
-                        decoration:
-                            const BoxDecoration(color: ColorResourse.white),
-                        child: Text('Order ID : ${order.orderId!}'),
-                      ),
-                    );
+                    return SingleOrderTile(order: order, showBottom: false);
                   },
                 );
         });

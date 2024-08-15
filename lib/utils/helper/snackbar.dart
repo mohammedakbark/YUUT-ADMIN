@@ -3,28 +3,28 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yuut_admin/utils/const/colors.dart';
 import 'package:yuut_admin/utils/const/const.dart';
 
-// showErrorMessage(context, content) {
-//   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//       behavior: SnackBarBehavior.floating,
-//       padding: const EdgeInsets.only(left: 8, right: 20, top: 5, bottom: 5),
-//       backgroundColor: red,
-//       content: Text(
-//         content,
-//         style: appTextstyle(letterSpacing: 1, color: black),
-//       )));
-// }
+showErrorSnackBar(context, content) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      padding: const EdgeInsets.only(left: 8, right: 20, top: 5, bottom: 5),
+      backgroundColor: ColorResourse.red,
+      content: Text(
+        content,
+        style: appTextstyle(letterSpacing: 1, color: ColorResourse.black),
+      )));
+}
 
-// showSuccessMessage(context, content) {
-//   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//       dismissDirection: DismissDirection.up,
-//       behavior: SnackBarBehavior.floating,
-//       padding: const EdgeInsets.only(left: 8, right: 20, top: 5, bottom: 5),
-//       backgroundColor: green,
-//       content: Text(
-//         content,
-//         style: appTextstyle(letterSpacing: 1, color: black),
-//       )));
-// }
+showSuccessSnackBar(context, content) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      dismissDirection: DismissDirection.up,
+      behavior: SnackBarBehavior.floating,
+      padding: const EdgeInsets.only(left: 8, right: 20, top: 5, bottom: 5),
+      backgroundColor: ColorResourse.green,
+      content: Text(
+        content,
+        style: appTextstyle(letterSpacing: 1, color: ColorResourse.black),
+      )));
+}
 
 showSuccessMessage(message) {
   Fluttertoast.showToast(

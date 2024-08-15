@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:yuut_admin/Model/product_model.dart';
 import 'package:yuut_admin/utils/Const/const_string.dart';
 import 'package:path/path.dart' as path;
@@ -49,6 +50,11 @@ class FirebaseDataBase {
     return _snapshot!;
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getSingleProductDetail(
+      String id) async {
+    return await _db.collection(ConstString.productCollection).doc(id).get();
+  }
+
 //----------------------------STORE IMAGE
 
   static Future<List<String>> storeImagetoCloud(List<File> imageList) async {
@@ -79,6 +85,75 @@ class FirebaseDataBase {
   //------------ORDER
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getOrder(OrderStatus status) {
-    return _db.collection(ConstString.oderCollection).where('status',isEqualTo: orderStatus(status)).snapshots();
+    return _db
+        .collection(ConstString.oderCollection)
+        .where('status', isEqualTo: convertOrderStatusToString(status))
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+  }
+
+  // actionToTheOrder(OrderStatus orderStatus, String orderId) {
+  //   if (orderStatus == OrderStatus.processed) {}
+  // }
+
+  void _updateOrderStatus(OrderStatus orderStatus, String id) async {
+    await _db
+        .collection(ConstString.oderCollection)
+        .doc(id)
+        .update({'status': convertOrderStatusToString(orderStatus)});
+  }
+
+  void cancelOrder(OrderStatus orderStatus, String id) {
+    _updateOrderStatus(orderStatus, id);
+  }
+
+  void proceedOrder(OrderStatus orderStatus, String id) {
+    _updateOrderStatus(orderStatus, id);
+  }
+
+  void completeOrder(OrderStatus orderStatus, String id) {
+    _updateOrderStatus(orderStatus, id);
+  }
+
+  // Future<bool> checkTheProductAvailibility(
+  //     List<Map<String, dynamic>> listOFProduct) async {
+  //   bool isProductAvailable = false;
+  //   for (var product in listOFProduct) {
+  //     final snapshot = await getSingleProductDetail(product['id']);
+
+  //     if (snapshot.exists) {
+  //       ProductModel model =
+  //           ProductModel.fromJson(snapshot.data() as Map<String, dynamic>);
+  //       if (product['qty'] <= model.quantity) {
+  //         isProductAvailable = true;
+  //         log('truem');
+  //       } else {
+  //         isProductAvailable = false;
+  //         log('fals');
+  //       }
+  //     }
+  //   }
+  //   return isProductAvailable;
+  // }
+
+//  reduce product quantity -- if the proceed  the order
+  void reduceTheProductQuantity(
+      BuildContext context, num quantity, String productId) async {
+    final snapshot = await getSingleProductDetail(productId);
+    if (snapshot.exists) {
+      ProductModel model =
+          ProductModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      if (model.quantity >= quantity) {
+        final updatedQuantity = model.quantity - quantity;
+
+        await _db
+            .collection(ConstString.productCollection)
+            .doc(productId)
+            .update({'quantity': updatedQuantity});
+      } else {
+        showErrorSnackBar(
+            context, 'We dont have enough product to proceed this order');
+      }
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -58,12 +59,47 @@ class Controller with ChangeNotifier {
 
   dispiseImage() {
     imageList = [];
+    selectedSizes = {};
+    availableSize = [
+      {'size': 'XS', 'isAvailable': false},
+      {'size': 'S', 'isAvailable': false},
+      {'size': 'M', 'isAvailable': false},
+      {'size': 'L', 'isAvailable': false},
+      {'size': 'XL', 'isAvailable': false},
+    ];
     notifyListeners();
   }
 
   int initialPageIndex = 0;
   void onChangePage(int index) {
     initialPageIndex = index;
+    notifyListeners();
+  }
+
+  List<Map<String, dynamic>> availableSize = [
+    {'size': 'XS', 'isAvailable': false},
+    {'size': 'S', 'isAvailable': false},
+    {'size': 'M', 'isAvailable': false},
+    {'size': 'L', 'isAvailable': false},
+    {'size': 'XL', 'isAvailable': false},
+  ];
+
+  _updateAvailableSize(int index, bool newValue) {
+    availableSize[index]['isAvailable'] = newValue;
+  }
+
+  Set<String> selectedSizes = {};
+  addToSelectedList(String value, int index, bool newValue) {
+    selectedSizes.add(value);
+    _updateAvailableSize(index, newValue);
+    log(selectedSizes.toList().toString());
+    notifyListeners();
+  }
+
+  removeFromSelectedList(String value, int index, bool newValue) {
+    selectedSizes.remove(value);
+    _updateAvailableSize(index, newValue);
+
     notifyListeners();
   }
 }

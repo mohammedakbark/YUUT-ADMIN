@@ -155,6 +155,33 @@ class _EditProductState extends State<EditProduct> {
                   ),
                   SizedBox(
                     width: width,
+                    height: higth * .08,
+                    child:
+                        Consumer<Controller>(builder: (context, controller, _) {
+                      return ListView.builder(
+                        itemCount: widget.productModel.sizes.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => Center(
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            margin: const EdgeInsets.all(5),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: ColorResourse.white,
+                                border: Border.all(color: ColorResourse.white)),
+                            child: Text(
+                              widget.productModel.sizes[index],
+                              style: appTextstyle(color: ColorResourse.black),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(
+                    width: width,
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -218,6 +245,7 @@ class _EditProductState extends State<EditProduct> {
                                 showLoadingIndiactor(context);
                                 await FirebaseDataBase()
                                     .updateProductDetail(ProductModel(
+                                  sizes: [],
                                   productId: widget.productModel.productId,
                                   deliveryAndRetturn:
                                       deliveryAndReturnController.text,

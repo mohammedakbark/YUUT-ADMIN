@@ -24,6 +24,7 @@ class AddProductPage extends StatelessWidget {
 
   var priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final higth = MediaQuery.of(context).size.height;
@@ -101,6 +102,7 @@ class AddProductPage extends StatelessWidget {
                                   ));
                             },
                           );
+
                           // Scaffold.of(context).showBottomSheet((context) {
                           //   return AspectRatio(
                           //     aspectRatio: 2,
@@ -136,6 +138,59 @@ class AddProductPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
+                  //xs,s,m,l,xl
+                  SizedBox(
+                    width: width,
+                    height: higth * .08,
+                    child:
+                        Consumer<Controller>(builder: (context, controller, _) {
+                      return ListView.builder(
+                        itemCount: controller.availableSize.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => Center(
+                          child: InkWell(
+                            onTap: () {
+                              if (controller.availableSize[index]
+                                  ['isAvailable']) {
+                                controller.removeFromSelectedList(
+                                    controller.availableSize[index]['size'],
+                                    index,
+                                    false);
+                              } else {
+                                controller.addToSelectedList(
+                                    controller.availableSize[index]['size'],
+                                    index,
+                                    true);
+                              }
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              margin: const EdgeInsets.all(5),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: controller.availableSize[index]
+                                          ['isAvailable']
+                                      ? ColorResourse.white
+                                      : ColorResourse.black,
+                                  border:
+                                      Border.all(color: ColorResourse.white)),
+                              child: Text(
+                                controller.availableSize[index]['size'],
+                                style: appTextstyle(
+                                    color: controller.availableSize[index]
+                                            ['isAvailable']
+                                        ? ColorResourse.black
+                                        : ColorResourse.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Consumer<Controller>(
@@ -279,28 +334,35 @@ class AddProductPage extends StatelessWidget {
                                 if (controller.imageList.isEmpty) {
                                   showErrorMessage("PICK PRODUCT IMAGE !!");
                                 } else {
-                                  showLoadingIndiactor(context);
-                                  await FirebaseDataBase()
-                                      .addNewProduct(ProductModel(
-                                    deliveryAndRetturn:
-                                        deliveryAndReturnController.text,
-                                    productDetails: detailController.text,
-                                    productDimensions: dimensionController.text,
-                                    quantity:
-                                        int.parse(quantityController.text),
-                                    image: await FirebaseDataBase
-                                        .storeImagetoCloud(
-                                            controller.imageList),
-                                    name: nameController.text,
-                                    prize: double.parse(priceController.text),
-                                  ));
+                                  if (controller.selectedSizes.isEmpty) {
+                                    showErrorMessage(
+                                        "SELECT THE AVAILABLE SIZES !!");
+                                  } else {
+                                    showLoadingIndiactor(context);
+                                    await FirebaseDataBase()
+                                        .addNewProduct(ProductModel(
+                                      sizes: controller.selectedSizes.toList(),
+                                      deliveryAndRetturn:
+                                          deliveryAndReturnController.text,
+                                      productDetails: detailController.text,
+                                      productDimensions:
+                                          dimensionController.text,
+                                      quantity:
+                                          int.parse(quantityController.text),
+                                      image: await FirebaseDataBase
+                                          .storeImagetoCloud(
+                                              controller.imageList),
+                                      name: nameController.text,
+                                      prize: double.parse(priceController.text),
+                                    ));
 
-                                  showSuccessMessage(
-                                      "PRODUCT ADDED SUCCESSFUL");
-                                  controller.dispiseImage();
-                                  final pop = Navigator.of(context);
-                                  pop.pop();
-                                  pop.pop();
+                                    showSuccessMessage(
+                                        "PRODUCT ADDED SUCCESSFUL");
+                                    controller.dispiseImage();
+                                    final pop = Navigator.of(context);
+                                    pop.pop();
+                                    pop.pop();
+                                  }
                                 }
                               }
 
